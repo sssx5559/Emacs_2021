@@ -102,10 +102,12 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq-default case-fold-search t)	;検索時の大文字、小文字の区別(t だと区別しない)
 
-;; 
-;; (when (eq system-type 'windows-nt)
-;;   (custom-set-faces
-;;    '(default ((t (:family "ＭＳ 明朝-12" :foundry "outline" :slant normal :weight normal :height 98 :width normal))))))
+;; 環境変数をシェルと共有
+(use-package exec-path-from-shell
+  :init ;; パッケージ読み込み前に実行
+  ;; (exec-path-from-shell-copy-envs '("PATH" "VIRTUAL_ENV" "GOROOT" "GOPATH"))
+  (exec-path-from-shell-copy-envs '("PATH"))
+  )
 
 
 ;;------------------------------------------------
