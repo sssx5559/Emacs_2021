@@ -78,6 +78,7 @@
  '(visible-bell t)								; 警告音のかわりに画面フラッシュ
  '(truncate-lines t)
  '(bookmark-save-flag 1)						; ブックマーク自動保存
+ '(byte-compile-warnings '(cl-functions))		; ver27から出るようになった警告'Package cl is deprecated'を抑制
  )
 
 ;; 起動するディレクトリ
@@ -102,12 +103,13 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq-default case-fold-search t)	;検索時の大文字、小文字の区別(t だと区別しない)
 
-;; 環境変数をシェルと共有
-(use-package exec-path-from-shell
-  :init ;; パッケージ読み込み前に実行
-  ;; (exec-path-from-shell-copy-envs '("PATH" "VIRTUAL_ENV" "GOROOT" "GOPATH"))
-  (exec-path-from-shell-copy-envs '("PATH"))
-  )
+;; 環境変数をシェルと共有(Windows以外)
+(unless (windowsp)
+  (use-package exec-path-from-shell
+	:init ;; パッケージ読み込み前に実行
+	;; (exec-path-from-shell-copy-envs '("PATH" "VIRTUAL_ENV" "GOROOT" "GOPATH"))
+	(exec-path-from-shell-copy-envs '("PATH"))
+	))
 
 
 ;;------------------------------------------------
