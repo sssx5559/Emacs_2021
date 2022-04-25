@@ -129,36 +129,36 @@
 ;;=========================================================
 ;; yasnippet
 ;;=========================================================
-;; (use-package yasnippet
-;;   :init ;; パッケージ読み込み前に実行
-;;   (custom-set-variables
-;;    ;; '(yas-snippet-dirs
-;;    ;; 	 (list (const user-emacs-directory "snippets")				  	;; 自作用(省略可能)
-;;    ;; 		   (const user-emacs-directory "elisp/yasnippet/snippets")	;; 最初から入っていたスニペット(省略可能)
-;;    ;; 		   ))
-;;    )
+(use-package yasnippet
+  :init ;; パッケージ読み込み前に実行
+  (custom-set-variables
+   ;; '(yas-snippet-dirs
+   ;; 	 (list (const user-emacs-directory "snippets")				  	;; 自作用(省略可能)
+   ;; 		   (const user-emacs-directory "elisp/yasnippet/snippets")	;; 最初から入っていたスニペット(省略可能)
+   ;; 		   ))
+   )
 
-;;   (yas-global-mode 1)
+  (yas-global-mode 1)
 
-;;   ;; 既存スニペットを挿入する
-;;   (define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
-;;   ;; 新規スニペットを作成するバッファを用意する
-;;   (define-key yas-minor-mode-map (kbd "C-x i n") 'yas-new-snippet)
-;;   ;; 既存スニペットを閲覧・編集する
-;;   (define-key yas-minor-mode-map (kbd "C-x i v") 'yas-visit-snippet-file)
+  ;; 既存スニペットを挿入する
+  (define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
+  ;; 新規スニペットを作成するバッファを用意する
+  (define-key yas-minor-mode-map (kbd "C-x i n") 'yas-new-snippet)
+  ;; 既存スニペットを閲覧・編集する
+  (define-key yas-minor-mode-map (kbd "C-x i v") 'yas-visit-snippet-file)
 
-;;   ;; (when (require 'helm nil t)
-;;   ;; 	(el-get-bundle helm-c-yasnippet
-;;   ;; 	  (custom-set-variables
-;;   ;; 	   '(helm-yas-space-match-any-greedy t)
-;;   ;; 	   )
-;;   ;; 	  (global-set-key (kbd "C-c y") 'helm-yas-complete)))
+  ;; (when (require 'helm nil t)
+  ;; 	(el-get-bundle helm-c-yasnippet
+  ;; 	  (custom-set-variables
+  ;; 	   '(helm-yas-space-match-any-greedy t)
+  ;; 	   )
+  ;; 	  (global-set-key (kbd "C-c y") 'helm-yas-complete)))
 
-;;   ;; (eval-after-load "yasnippet"
-;;   ;; '(progn
-;;   ;;    ;; companyと競合するのでyasnippetのフィールド移動は "C-i" のみにする
-;;   ;;    (define-key yas-keymap (kbd "<tab>") nil)
-;;   ;;    (yas-global-mode 1))))
+  ;; (eval-after-load "yasnippet"
+  ;; '(progn
+  ;;    ;; companyと競合するのでyasnippetのフィールド移動は "C-i" のみにする
+  ;;    (define-key yas-keymap (kbd "<tab>") nil)
+  ;;    (yas-global-mode 1))))
 
-;;   :config ;; パッケージ読み込み後に実行
-;;   )
+  :config ;; パッケージ読み込み後に実行
+  )
