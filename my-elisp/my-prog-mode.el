@@ -24,7 +24,7 @@
   :ensure t
   :init (yas-global-mode)
   :hook (rust-mode . lsp)
-  :bind ("C-c h" . lsp-describe-thing-at-point)
+;  :bind ("C-c h" . lsp-describe-thing-at-point)
   :custom (lsp-rust-server 'rust-analyzer))
 
 (use-package lsp-ui

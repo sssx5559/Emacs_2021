@@ -28,6 +28,7 @@
   ;;(setq mac-control-modifier 'super)		; 左control
   ;;(setq mac-right-control-modifier 'super)	; 右control
   (setq mac-function-modifier 'alt)			; function
+  (global-set-key [?\M-¥] "\\") 			; Option+¥でbackslash "\"
   )
  ((linuxp)
   )

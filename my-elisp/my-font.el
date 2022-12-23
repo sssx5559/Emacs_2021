@@ -8,8 +8,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun NTEmacs-font-set (myfont)
   ;; MSYS2用判定追加 2020/11/22
-  (unless (msys2p)
-	(set-default-font myfont))
+;  (unless (msys2p)
+;	(set-default-font myfont))
 
   ;; 固定等幅フォント
   (set-face-attribute 'fixed-pitch    nil :family myfont)
