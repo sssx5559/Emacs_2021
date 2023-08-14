@@ -704,3 +704,11 @@
 	  (when p
 		(set-process-query-on-exit-flag p nil))))
   )
+
+;;=========================================================
+;; スクラッチバッファ保存
+;;=========================================================
+(use-package persistent-scratch
+  :defer nil
+  :config ;; パッケージ読み込み後に実行
+  (persistent-scratch-setup-default))
