@@ -46,11 +46,13 @@
 ;; The Silver Searcher
 (when (executable-find "ag")
   (use-package helm-ag
-	:defer t
-	:bind
-	  (("C-c a" . helm-ag))
-	)
-  )
+		:defer t
+		:bind
+		(("C-c a" . helm-ag))
+
+		:custom
+		(helm-ag-command-option "-ai")			; 大文字小文字無視 & 隠しファイルも検索
+		))
 
 
 ;;=========================================================
