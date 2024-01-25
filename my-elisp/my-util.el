@@ -712,3 +712,77 @@
   :defer nil
   :config ;; パッケージ読み込み後に実行
   (persistent-scratch-setup-default))
+
+;;=========================================================
+;; ミニマップ
+;;=========================================================
+;; (use-package minimap
+;;   :commands
+;;   (minimap-bufname minimap-create minimap-kill)
+;;   :custom
+;;   (minimap-major-modes '(prog-mode))
+
+;;   (minimap-window-location 'right)
+;;   (minimap-update-delay 0.2)
+;;   (minimap-minimum-width 20)
+;;   :bind
+;;   ;; ("M-t m" . ladicle/toggle-minimap)
+;;   :preface
+;;   (defun ladicle/toggle-minimap ()
+;;     "Toggle minimap for current buffer."
+;;     (interactive)
+;;     (if (null minimap-bufname)
+;;         (minimap-create)
+;;       (minimap-kill)))
+;;   :config
+;;   (custom-set-faces
+;;    '(minimap-active-region-background
+;;      ((((background dark)) (:background "#555555555555"))
+;;       (t (:background "#C847D8FEFFFF"))) :group 'minimap)))
+
+;;=========================================================
+;; 変更範囲と操作を可視化
+;;=========================================================
+(use-package git-gutter
+    :custom
+    (git-gutter:modified-sign "~")
+    (git-gutter:added-sign    "+")
+    (git-gutter:deleted-sign  "-")
+    :custom-face
+    (git-gutter:modified ((t (:background "#f1fa8c"))))
+    (git-gutter:added    ((t (:background "#50fa7b"))))
+    (git-gutter:deleted  ((t (:background "#ff79c6"))))
+    :config
+    (global-git-gutter-mode +1))
+
+;;=========================================================
+;; ディレクトリツリー
+;;=========================================================
+;; (use-package neotree
+;;   :after
+;;   projectile
+;;   :commands
+;;   (neotree-show neotree-hide neotree-dir neotree-find)
+;;   :custom
+;;   (neo-theme 'nerd2)
+;;   :bind
+;;   ("<f9>" . neotree-projectile-toggle)
+;;   :preface
+;;   (defun neotree-projectile-toggle ()
+;;     (interactive)p
+;;     (let ((project-dir
+;;            (ignore-errors
+;; ;;; Pick one: projectile or find-file-in-project
+;;              (projectile-project-root)
+;;              ))
+;;           (file-name (buffer-file-name))
+;;           (neo-smart-open t))
+;;       (if (and (fboundp 'neo-global--window-exists-p)
+;;                (neo-global--window-exists-p))
+;;           (neotree-hide)
+;;         (progn
+;;           (neotree-show)
+;;           (if project-dir
+;;               (neotree-dir project-dir))
+;;           (if file-name
+;;               (neotree-find file-name)))))))

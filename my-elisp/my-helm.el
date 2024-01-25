@@ -51,7 +51,8 @@
 		(("C-c a" . helm-ag))
 
 		:custom
-		(helm-ag-command-option "-ai")			; 大文字小文字無視 & 隠しファイルも検索
+;		(helm-ag-command-option "-ai")			; 大文字小文字無視 & 隠しファイルも検索
+    (helm-ag-command-option "-i")			; 大文字小文字無視
 		))
 
 

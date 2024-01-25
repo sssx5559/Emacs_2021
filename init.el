@@ -186,6 +186,14 @@
 (load-library "my-prog-mode.el")
 
 
+;;------------------------------------------------
+;; Emacs29.1 エラー対策
+;;------------------------------------------------
+(defvar browse-url-galeon-program nil)
+(defvar browse-url-mosaic-program nil)
+(defvar browse-url-netscape-program nil)
+
+
 ;;======================================================
 ;; Emacs操作メモ
 ;;======================================================

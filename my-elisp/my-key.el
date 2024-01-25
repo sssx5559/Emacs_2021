@@ -23,7 +23,7 @@
   (setq mac-right-command-modifier 'hyper)	; 右command
   ;;(setq mac-alternate-modifier 'super)		; ?
   ;;(setq mac-right-alternate-modifier 'alt)	; ?
-  ;;(setq mac-option-modifier 'alt)			; 左option
+  (setq mac-option-modifier 'super)			; 左option
   ;;(setq mac-right-option-modifier 'alt)		; 右option
   ;;(setq mac-control-modifier 'super)		; 左control
   ;;(setq mac-right-control-modifier 'super)	; 右control
@@ -45,7 +45,8 @@
 (global-set-key "\C-h" 'backward-delete-char)
 
 ;; C-chをヘルプとして使う
-(global-set-key "\C-ch" 'help-command)
+;;(global-set-key "\C-ch" 'help-command)
+(global-set-key "\C-ch" 'help)
 
 ;; 改行キーでオートインデント
 (global-set-key "\C-m" 'newline-and-indent)
@@ -107,11 +108,14 @@
 (global-set-key (kbd "H-<left>") 'ns-prev-frame)
 (global-set-key (kbd "H-<right>") 'ns-next-frame)
 
+;; フレーム切り替え
+(global-set-key (kbd "M-@") 'other-frame)
+
 ;; 日付挿入
-(global-set-key (kbd "C-c d")
-				'(lambda ()
-				   (interactive)
-				   (insert (format-time-string "%Y/%m/%d"))))
+;; (global-set-key (kbd "C-c d")
+;; 				'(lambda ()
+;; 				   (interactive)
+;; 				   (insert (format-time-string "%Y/%m/%d"))))
 
 ;;=========================================================
 ;; 自作関数呼び出し
