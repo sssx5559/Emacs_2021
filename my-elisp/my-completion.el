@@ -162,3 +162,12 @@
 
   :config ;; パッケージ読み込み後に実行
   )
+
+;;=========================================================
+;; git-complete.el
+;;=========================================================
+(use-package git-complete
+  :straight (:host github :repo "zk-phi/git-complete" :branch "master")
+  :bind	;; グローバルキー設定
+  (("s-i" . git-complete))
+  )

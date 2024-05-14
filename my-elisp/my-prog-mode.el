@@ -93,13 +93,83 @@
 ;;=========================================================
 ;; Rust-mode
 ;;=========================================================
-;;(add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
+;; ;;(add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
 
-(use-package rust-mode
-  :ensure t
-  :custom rust-format-on-save t)
+;; (use-package rust-mode
+;;   :ensure t
+;;   :custom rust-format-on-save t)
 
-(use-package cargo
-  :ensure t
-  :hook (rust-mode . cargo-minor-mode))
+;; (use-package cargo
+;;   :ensure t
+;;   :hook (rust-mode . cargo-minor-mode))
 
+
+;;=========================================================
+;; projectile
+;;=========================================================
+(use-package projectile
+  :defer t
+
+  :config ;; パッケージ読み込み後に実行
+  (projectile-mode +1)
+  (setq projectile-completion-system 'helm)
+  ;; (helm-projectile-on)
+
+
+  :bind	;; グローバルキー設定
+    (("M-p" . projectile-command-map))
+  ;; (("s-p" . projectile-command-map)) ; Mac
+  ;; (("C-c p" . projectile-command-map)) ; Win
+  )
+
+;; projectile-ag用
+(use-package ag)
+
+
+;;=========================================================
+;; dumb-jump
+;;=========================================================
+;; (use-package dumb-jump
+;;   :ensure t
+;;   ;; :bind(
+;;   ;;       ("C-c g" . dumb-jump-go)         ;; クラスや関数、変数の定義されている場所へ飛ぶ
+;;   ;;       ("C-c b" . dumb-jump-back)       ;; 飛んできたら、元の場所に戻る
+;;   ;;       ("C-M-q" . dumb-jump-quick-look) ;; 飛ぶ前にジャンプ先の候補を表示
+;;   ;;       )
+;;   :init
+;;   ;; dumb-jumpを起動
+;;   (dumb-jump-mode)
+
+;;   :config
+;;   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate) ;; xrefを使うらしいので起動させる
+;;   (setq dumb-jump-force-searcher 'ag)          ;; デフォルトだとgit grepが使われてエラーが出たのでrgコマンドを強制利用する
+;;   (setq dumb-jump-prefer-searcher 'ag)         ;; rgコマンドを優先的に利用する
+;;   (setq dumb-jump-default-project "")          ;; ホームディレクトリ以下が検索対象になるのを回避
+;;   ;; (setq dumb-jump-disable-obsolete-warnings t) ;; レガシーコマンドの警告を非表示
+;;   )
+
+
+;;=========================================================
+;; smart-jump
+;;=========================================================
+;; (use-package smart-jump
+;;  :ensure t
+;;  :config
+;;  (smart-jump-setup-default-registers))
+
+;;=========================================================
+;; Mermaid
+;;=========================================================
+(use-package mermaid-mode
+  :custom
+  (mermaid-output-format ".png")        ;".svg" or ".png" or ".pdf"
+
+  ;; :bind
+  ;; ;; デフォルト設定
+  ;; ((("C-c C-c") 'mermaid-compile)
+  ;;   (("C-c C-f") 'mermaid-compile-file)
+  ;;   (("C-c C-b") 'mermaid-compile-buffer)
+  ;;   (("C-c C-r") 'mermaid-compile-region)
+  ;;   (("C-c C-o") 'mermaid-open-browser)
+  ;;   (("C-c C-d") 'mermaid-open-doc))
+  )

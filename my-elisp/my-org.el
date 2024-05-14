@@ -9,6 +9,7 @@
 (setq org-default-notes-file (concat org-directory my-default-note))
 (setq my-task-file (concat org-directory "gtd.org"))
 (setq my-trade-journal-file (concat org-directory "trade_journal.org"))
+(setq my-pere-file (concat org-directory "pere.org"))
 (setq my-kaze-note-file (concat org-directory "kaze_note.org"))
 
 ;;=========================================================
@@ -23,25 +24,29 @@
 ;;         ))
 
 (setq org-capture-templates
-	  ;; ノート
-	  '(("n" "Note" entry (file+headline org-default-notes-file "Notes")
+	    ;; ノート
+	    '(("n" "Note" entry (file+headline org-default-notes-file "Notes")
          "* %?\nEntered on %U\n %i\n %a")
 
-		;; タスク
-		("t" "Todo" entry (file+headline my-task-file)
-		 "* TODO %?
+		    ;; タスク
+		    ("t" "Todo" entry (file+headline my-task-file)
+		     "* TODO %?
        %i
        %a")
 
-		;; トレード日誌
-		("j" "Trade Journal" entry (file+datetree my-trade-journal-file)
-		 "* %?
+		    ;; トレード日誌
+		    ("j" "Trade Journal" entry (file+datetree my-trade-journal-file)
+		     "* %?
      Entered on %U
        %i
        %a")
 
-		;; 風ノート
-		("k" "Kaza note" entry (file+datetree my-kaze-note-file)
-		 "* %?\nEntered on %U\n %i\n %a")
-		)
-	  )
+		    ;; ペレ
+		    ("p" "Pere" entry (file+datetree my-pere-file)
+		     "* %?\nEntered on %U\n %i\n %a")
+
+		    ;; 風ノート
+		    ("k" "Kaza note" entry (file+datetree my-kaze-note-file)
+		     "* %?\nEntered on %U\n %i\n %a")
+		    )
+	    )
