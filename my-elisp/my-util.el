@@ -786,3 +786,26 @@
 ;;               (neotree-dir project-dir))
 ;;           (if file-name
 ;;               (neotree-find file-name)))))))
+
+;;=========================================================
+;; smartparens
+;;=========================================================
+(use-package smartparens
+  :ensure t
+  :delight
+  :hook
+  (after-init-hook . smartparens-global-strict-mode)
+  :custom
+  (electric-pair-mode nil)
+  :config
+  (require 'smartparens-config))
+
+;;=========================================================
+;; mwim
+;; コードの先頭・末尾への移動と行頭・行末への移動を行う
+;;=========================================================
+;; (use-package mwim
+;;   :ensure t
+;;   :bind (("C-a" . mwim-beginning-of-code-or-line)
+;;          ("C-e" . mwim-end-of-code-or-line))
+;;   )

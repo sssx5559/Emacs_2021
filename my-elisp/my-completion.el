@@ -1,114 +1,205 @@
 ;;;; -*- coding: utf-8 -*-
 
 ;;=========================================================
-;; company
+;; corfu 入力補完パッケージ
 ;;=========================================================
-(use-package company
-  :defer t
+(use-package corfu
+  :ensure t
+  :custom ((corfu-auto t)
+           (corfu-auto-prefix 3)	;
+           (corfu-auto-delay 0.2)
+	   (corfu-quit-at-boundary nil)	; orderlessと合わせて順序のない検索を使用(単語の境界を無効)
+	   ;; (corfu-quit-no-match 'separator)
+	   ;; (corfu-scroll-margin 2)	; 候補スクロール開始位置が、候補ウィンドウの下から何行目か
+           (corfu-cycle t))
 
-  :bind	;; グローバルキー設定
-  (("M-i" . company-complete))
+  :bind (nil
+         :map corfu-map
+	 ;; ("SPC" . corfu-insert-separator)
+         ;; ("M-i" . corfu-insert)
+	 ("TAB" . corfu-insert)
+         ("RET" . nil)
+         ("<return>" . nil))
 
-  :config ;; パッケージ読み込み後に実行
-  (setq company-selection-wrap-around t)
+  :init
+  (global-corfu-mode)
+  (corfu-popupinfo-mode))
 
-  ;;------------------
-  ;; 画面設定
-  ;;------------------
-  (set-face-attribute 'company-tooltip nil
-					  :foreground "black" :background "lightgrey")
-  (set-face-attribute 'company-tooltip-common nil
-					  :foreground "black" :background "lightgrey")
-  (set-face-attribute 'company-tooltip-common-selection nil
-					  :foreground "white" :background "steelblue")
-  (set-face-attribute 'company-tooltip-selection nil
-					  :foreground "black" :background "steelblue")
-  (set-face-attribute 'company-preview-common nil
-					  :background nil :foreground "lightgrey" :underline t)
-  (set-face-attribute 'company-scrollbar-fg nil
-					  :background "orange")
-  (set-face-attribute 'company-scrollbar-bg nil
-					  :background "gray40")
+;; 順序のない検索を使用
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(partial-completion orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion))))
+  )
 
-  (bind-keys :map company-active-map
-        ("M-n" . nil)
-        ("M-p" . nil)
+;; completion-at-pointを自分好みにカスタマイズ
+(use-package cape
+  :ensure t
+  :init
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  ;; (add-to-list 'completion-at-point-functions #'cape-history)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'tempel-complete)
+  ;; (add-to-list 'completion-at-point-functions #'cape-tex)
+  ;; (add-to-list 'completion-at-point-functions #'cape-sgml)
+  ;; (add-to-list 'completion-at-point-functions #'cape-rfc1345)
+  ;; (add-to-list 'completion-at-point-functions #'cape-abbrev)
+  ;; (add-to-list 'completion-at-point-functions #'cape-ispell)
+  ;; (add-to-list 'completion-at-point-functions #'cape-dict)
+  ;; (add-to-list 'completion-at-point-functions #'cape-symbol)
+  ;; (add-to-list 'completion-at-point-functions #'cape-line)
+)
 
-		;; 1つしか候補がなかったらtabで補完、複数候補があればtabで次の候補へ行くように
-        ("M-i" . company-complete-common-or-cycle)
+;; (use-package cape
+;;   :init
+;;   (defun my/set-super-capf (&optional arg)
+;;     (setq-local completion-at-point-functions
+;;                 (list (cape-capf-noninterruptible
+;;                        (cape-capf-buster
+;;                         (cape-capf-properties
+;;                          (cape-capf-super
+;;                           (if arg
+;;                               arg
+;;                             (car completion-at-point-functions))
+;;                           #'tempel-complete
+;;                           ;; #'tabnine-completion-at-point
+;;                           #'cape-dabbrev
+;;                           #'cape-file)
+;;                          :sort t
+;;                          :exclusive 'no))))))
 
-		;; C-n, C-pで補完候補を次/前の候補を選択
-        ("C-n" . company-select-next)
-        ("C-p" . company-select-previous)
+;;   :hook (((prog-mode
+;;            text-mode
+;;            conf-mode
+;;            eglot-managed-mode
+;;            lsp-completion-mode) . my/set-super-capf))
+;;   :config
+;;   (setq cape-dabbrev-check-other-buffers nil)
 
-		;; 絞り込み検索
-		("C-s" . company-filter-candidates)
+;;   ;; 複数のcompletion-at-pointが格納でき、格納された順番に評価される
+;;   (add-to-list 'completion-at-point-functions #'tempel-complete)
+;;   ;; (add-to-list 'completion-at-point-functions #'tabnine-completion-at-point)
+;;   (add-to-list 'completion-at-point-functions #'cape-file t)
+;;   (add-to-list 'completion-at-point-functions #'cape-tex t)
+;;   (add-to-list 'completion-at-point-functions #'cape-dabbrev t)
+;;   (add-to-list 'completion-at-point-functions #'cape-keyword t))
 
-		;; 候補を設定
-		("C-i" . company-complete-selection)
-		("<tab>" . company-complete-selection)
-
-		;; C-hのドキュメント表示を変更
-        ("C-h" . nil)
-		("M-h" . company-show-doc-buffer)
-		("C-o" . company-show-doc-buffer))
-
-  (bind-keys :map company-search-map
-		("C-n" . company-select-next)
-		("C-p" . company-select-previous)
-		("C-h" . nil)
-		("C-o" . company-show-doc-buffer)
-		("C-o" . company-show-doc-buffer))
-
-  ;; 各種メジャーモードでも C-M-iで company-modeの補完を使う
-  ;; (define-key emacs-lisp-mode-map (kbd "C-M-i") 'company-complete)
-
-  ;; quick-help
-  ;; (el-get-bundle pos-tip)
-  ;; (el-get-bundle company-quickhelp
-  ;; 	(company-quickhelp-mode +1)		;; 使うと重たくなる
-  ;; 	)
-
-  (global-company-mode))
 
 ;;=========================================================
-;; company-jedi(Python入力補完)
+;; tempel
+;; Simple templates for Emacs
 ;;=========================================================
-;; (el-get-bundle jedi-core)
-;; (el-get-bundle company-jedi
-;; 	(require 'company-jedi)
-;; 	(add-hook 'python-mode-hook 'jedi:setup)
-;; 	(add-to-list 'company-backends 'company-jedi) ; backendに追加
+(use-package tempel
+  :ensure t
 
-;; 	(custom-set-variables
-;; 	 '(jedi:complete-on-dot t)
-;; 	 '(jedi:use-shortcuts t)
-;; 	 )
-;; 	)
+  :custom
+  (tempel-path "/Users/miyazaki/.emacs.d/my-elisp/templates")
+
+  :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
+         ("M-*" . tempel-insert)
+	 ;; ("M-{" . tempel-previous)
+	 ;; ("M-}" . tempel-next)
+	 )
+  :init
+  (defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions
+                (cons #'tempel-complete
+                      completion-at-point-functions)))
+  :hook
+  (prog-mode . tempel-setup-capf)
+  (text-mode . tempel-setup-capf)
+  (org-mode . tempel-setup-capf)
+
+  ;; Optionally make the Tempel templates available to Abbrev,
+  ;; either locally or globally. `expand-abbrev' is bound to C-x '.
+  ;; (add-hook 'prog-mode-hook #'tempel-abbrev-mode)
+  ;; (global-tempel-abbrev-mode)
+  )
 
 
 ;;=========================================================
-;; ivy/counsel/swiper
+;; corfuにアイコンをつける
 ;;=========================================================
-;; (use-package swiper)
-;; (use-package counsel)
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :custom (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-;; (defun isearch-forward-or-swiper (use-swiper)
-;;   (interactive "P")
-;;   (let (current-prefix-arg)
-;; 	(call-interactively (if use-swiper 'swiper 'isearch-forward))))
+;; (use-package nerd-icons :ensure t)
+;; ;; (use-package all-the-icons :ensure t)
 
-;; ;; キー設定
-;; (global-set-key (kbd "C-s") 'isearch-forward-or-swiper)
-;; ;;(global-set-key (kbd "C-M-s") 'swiper)
-;; ;;(global-set-key (kbd "M-x") 'counsel-M-x)
-;; (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-;; ;;(global-set-key (kbd "C-c C-r") 'ivy-resume)
+;; ;; ;; dired で nerd icon を表示
+;; (use-package nerd-icons-dired
+;;   :ensure t
+;;   :hook (dired-mode-hook . nerd-icons-dired-mode))
 
-;; (define-key ivy-minibuffer-map (kbd "C-l") 'counsel-up-directory)
-;; (define-key ivy-minibuffer-map (kbd "C-h") 'ivy-backward-delete-char)
-;; (define-key swiper-map (kbd "C-r") 'ivy-previous-line-or-history)
+;; ;; completion で nerd icon を表示
+;; (use-package nerd-icons-completion
+;;   :ensure t
+;;   :after marginalia
+;;   :config
+;;   (nerd-icons-completion-mode)
+;;   :hook (marginalia-mode-hook . #'nerd-icons-completion-marginalia-setup))
 
+;; ;; corfu で nerd icon を表示
+;; (use-package nerd-icons-corfu
+;;   :ensure t
+;;   :after corfu
+;;   :config
+;;   (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+
+;;=========================================================
+;; vertico: ミニバッファ用ファジーファインダーUI
+;; consult: コマンドの提供、候補リストの作成
+;; marginalia.el: 付加情報の表示
+;; orderless.el: マッチ方法を変更し、スペース区切りで入力をマッチさせる
+;; embark.el: アクションを実行する
+;;=========================================================
+;; (use-package vertico
+;;   :custom ((vertico-mode 1)
+;; 	   ;; (vertico-cycle t)
+;;            (vertico-count 10))
+;;   )
+
+;; (use-package extensions/vertico-directory
+;;   :straight (:type built-in)
+;;   :after vertico
+;;   :ensure nil
+;;   :bind (:map vertico-map
+;;               ("C-l" . vertico-directory-up)
+;;               ("\d" . vertico-directory-delete-char)))
+
+;; (use-package consult
+;;   :bind
+;;   (
+;;    ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+;;    ("M-g g" . consult-goto-line)             ;; orig. goto-line
+;;    ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+;;    )
+;;   :hook (completion-list-mode . consult-preview-at-point-mode)
+;;   :config
+;;   (setq consult-project-root-function #'projectile-project-root)
+;;   )
+
+;; (use-package orderless
+;;   :ensure t
+;;   :custom (completion-styles '(orderless)))
+
+;; (use-package marginalia
+;;   :init
+;;   (marginalia-mode))
+
+
+;;=========================================================
+;; counsel
+;;=========================================================
 (use-package counsel
 
   :bind	;; グローバルキー設定
@@ -171,3 +262,26 @@
   :bind	;; グローバルキー設定
   (("s-i" . git-complete))
   )
+
+;;=========================================================
+;; Copilot
+;;=========================================================
+;; ※明示的に"M-x copilot-mode"としないと使用できない
+;; (use-package copilot
+;;   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
+;;   :ensure t
+;;   :custom
+;;   (copilot-indent-offset-warning-disable t)
+
+;;   ;; :hook
+;;   ;; (prog-mode . copilot-mode)
+
+;;   :bind
+;;   ("M-i" . copilot-accept-completion)
+;;   ("M-[" . copilot-next-completion)
+;;   ("M-]" . copilot-previous-completion)
+
+;;   :config ;; パッケージ読み込み後に実行
+;;   ;; (copilot-mode t)
+;;   )
+
